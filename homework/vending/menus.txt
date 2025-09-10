@@ -1,3 +1,2 @@
-1 coke 15
-2 cider 20
-3 fanta 15
+1 coke2 600 13
+2 fanta 800 18

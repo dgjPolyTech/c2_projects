@@ -1,8 +1,12 @@
 ﻿  01.c
-D:\C\C_2\homework\vending\01.c(86,12): warning C4473: 'printf': 서식 문자열에 대한 인수가 충분하게 전달되지 않았습니다.
-      D:\C\C_2\homework\vending\01.c(86,12):
-      자리 표시자 및 해당 매개 변수에는 variadic 인수가 4개 필요하지만 2개가 제공되었습니다.
-      D:\C\C_2\homework\vending\01.c(86,12):
-      누락된 variadic 인수 3이(가) 서식 문자열 '%d'에 필요합니다.
-  
+D:\C\C_2\homework\vending\01.c(95,72): warning C4133: '함수': 'time *'과(와) 'const tm *' 사이의 형식이 호환되지 않습니다.
+D:\C\C_2\homework\vending\01.c(96,71): warning C4133: '함수': 'time *'과(와) 'const tm *' 사이의 형식이 호환되지 않습니다.
+D:\C\C_2\homework\vending\01.c(91,38): warning C4133: '초기화 중': 'tm *'과(와) 'time *' 사이의 형식이 호환되지 않습니다.
+D:\C\C_2\homework\vending\01.c(166,30): warning C4047: '!=': 'int'의 간접 참조 수준이 'char [1]'과(와) 다릅니다.
+D:\C\C_2\homework\vending\01.c(166,54): warning C4553: '==': 식의 결과가 사용되지 않습니다. '='을(를) 의도했습니까?
+D:\C\C_2\homework\vending\01.c(167,31): warning C4047: '!=': 'int'의 간접 참조 수준이 'char [1]'과(와) 다릅니다.
+D:\C\C_2\homework\vending\01.c(167,56): warning C4553: '==': 식의 결과가 사용되지 않습니다. '='을(를) 의도했습니까?
+D:\C\C_2\homework\vending\01.c(179,13): warning C4101: 'newAmount' :참조되지 않은 지역 변수입니다.
+D:\C\C_2\homework\vending\01.c(177,14): warning C4101: 'newName' :참조되지 않은 지역 변수입니다.
+D:\C\C_2\homework\vending\01.c(178,13): warning C4101: 'newPrice' :참조되지 않은 지역 변수입니다.
   vending.vcxproj -> D:\C\C_2\homework\vending\x64\Debug\vending.exe
