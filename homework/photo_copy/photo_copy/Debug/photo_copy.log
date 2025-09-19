@@ -1,0 +1,11 @@
+﻿  01.c
+D:\C\C_2\homework\photo_copy\01.c(94,23): warning C4018: '<': signed 또는 unsigned가 일치하지 않습니다.
+D:\C\C_2\homework\photo_copy\01.c(102,23): warning C4018: '<': signed 또는 unsigned가 일치하지 않습니다.
+D:\C\C_2\homework\photo_copy\01.c(137,23): warning C4018: '<': signed 또는 unsigned가 일치하지 않습니다.
+D:\C\C_2\homework\photo_copy\01.c(143,23): warning C4018: '<': signed 또는 unsigned가 일치하지 않습니다.
+D:\C\C_2\homework\photo_copy\01.c(152,19): warning C4018: '<': signed 또는 unsigned가 일치하지 않습니다.
+D:\C\C_2\homework\photo_copy\01.c(153,15): warning C4018: '<': signed 또는 unsigned가 일치하지 않습니다.
+D:\C\C_2\homework\photo_copy\01.c(155,20): warning C4018: '<': signed 또는 unsigned가 일치하지 않습니다.
+D:\C\C_2\homework\photo_copy\01.c(157,20): warning C4018: '<': signed 또는 unsigned가 일치하지 않습니다.
+D:\C\C_2\homework\photo_copy\01.c(159,20): warning C4018: '<': signed 또는 unsigned가 일치하지 않습니다.
+  photo_copy.vcxproj -> D:\C\C_2\homework\photo_copy\Debug\photo_copy.exe

@@ -1,0 +1,12 @@
+﻿  01.c
+D:\C\C_2\homework\photo_copy\01.c(19,16): warning C4013: 'malloc'이(가) 정의되지 않았습니다. extern은 int형을 반환하는 것으로 간주합니다.
+D:\C\C_2\homework\photo_copy\01.c(46,17): warning C4047: '=': 'short *'의 간접 참조 수준이 'int'과(와) 다릅니다.
+D:\C\C_2\homework\photo_copy\01.c(19,11): warning C4047: '초기화 중': 'Image'의 간접 참조 수준이 'int'과(와) 다릅니다.
+D:\C\C_2\homework\photo_copy\01.c(55,9): warning C4013: 'free'이(가) 정의되지 않았습니다. extern은 int형을 반환하는 것으로 간주합니다.
+D:\C\C_2\homework\photo_copy\01.c(77,9): warning C4013: 'strcmp'이(가) 정의되지 않았습니다. extern은 int형을 반환하는 것으로 간주합니다.
+D:\C\C_2\homework\photo_copy\01.c(90,23): warning C4018: '<': signed 또는 unsigned가 일치하지 않습니다.
+D:\C\C_2\homework\photo_copy\01.c(98,23): warning C4018: '<': signed 또는 unsigned가 일치하지 않습니다.
+D:\C\C_2\homework\photo_copy\01.c(116,9): warning C4013: 'exit'이(가) 정의되지 않았습니다. extern은 int형을 반환하는 것으로 간주합니다.
+D:\C\C_2\homework\photo_copy\01.c(133,23): warning C4018: '<': signed 또는 unsigned가 일치하지 않습니다.
+D:\C\C_2\homework\photo_copy\01.c(139,23): warning C4018: '<': signed 또는 unsigned가 일치하지 않습니다.
+  photo_copy.vcxproj -> D:\C\C_2\homework\photo_copy\x64\Debug\photo_copy.exe
