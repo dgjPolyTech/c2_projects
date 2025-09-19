@@ -3,7 +3,7 @@
 #include <stdlib.h> // malloc, free, exit 함수 사용을 위해 추가
 #include <string.h> // strcmp 함수 사용을 위해 추가
 
-#include <Windows.h>
+#include <Windows.h> // cmd창 위에 요소를 그리기 위해 필요한 헤더
 
 HWND hwnd; // 콘솔 핸들. 대충 콘솔 창에 띄우기 위한 콘솔의 값을 가진 것이라고 볼 수 있음.
 HDC hdc; // cmd 위에 그림을 그릴 각종 기능들을 포함함.
@@ -12,6 +12,7 @@ HDC hdc; // cmd 위에 그림을 그릴 각종 기능들을 포함함.
 // enum은 1, 2, 3, 4, 5, 6 이런 식으로 "열거형"으로 데이터를 저장하기 위해 사용함.
 enum FORMAT { EMPTY, GREY, RGB, YCBCR, YCBCR420, BLOCK };
 
+// 이미지 정보를 담는 구조체
 typedef struct imageType {
     unsigned int rows;      // 이미지 세로 크기(=높이)
     unsigned int cols;      // 이미지 가로 크기(=넓이)
@@ -23,8 +24,8 @@ typedef struct imageType {
 
 typedef ImageType* Image;
 
-// 이미지의 크기 정의하는 구간.
-Image imageAllocate(unsigned int rows, unsigned int cols, char format, unsigned int levels) {
+// 위에서 선언한 구조체 기반으로, 이미지 저장 공간을 만들어내는 함수.
+Image imageAllocate(unsigned int rows, unsigned int cols, char format, unsigned int levels) { //unsigned > 음수를 표현할 수 없는 대신 양수로 표현할 수 있는 범위가 훨씬 더 큼
     // 이미지의 크기를 malloc 형식으로 필요한 만큼만 동적 할당. 
     Image im = malloc(sizeof(ImageType));
     im->rows = rows;
@@ -35,7 +36,7 @@ Image imageAllocate(unsigned int rows, unsigned int cols, char format, unsigned 
     if (im->format == EMPTY)
         return im;
 
-    // 이미지 형식에 따라 total 값(=이미지의 전체 픽셀 값)을 필요한 만큼 할당
+    // 이미지 형식에 따라 total 값(=이미지의 전체 픽셀 개수)을 필요한 만큼 할당
     switch (im->format) {
     case GREY:
         im->total = im->cols * im->rows;
@@ -57,7 +58,7 @@ Image imageAllocate(unsigned int rows, unsigned int cols, char format, unsigned 
     return im;
 }
 
-// 메모리를 해제하는 함수
+// 사용하던 메모리를 해제하는 함수
 void imageRelease(Image im) {
     im->format = EMPTY;
     if (im->content != NULL)
@@ -66,36 +67,44 @@ void imageRelease(Image im) {
     free(im);
 }
 
-// PBM 이미지를 읽는 핵심 구간.
+// PBM 이미지를 읽는 구간.
 Image readPBMImage(const char* filename) {
     FILE* pgmFile;
     int k;
 
     char signature[3];
-    unsigned cols, rows, levels;
+    unsigned cols, rows, levels; // 
 
-    Image im = imageAllocate(0, 0, EMPTY, 0);
+    Image im = imageAllocate(0, 0, EMPTY, 0); // 먼저 비어있는 껍데기 이미지를 만들어냄. 이미지가 아예 없어 오류가 나는 상황을 막기 위함.
 
     pgmFile = fopen(filename, "rb");
     if (pgmFile == NULL) {
         perror("Cannot open file to read!");
         return im;
     }
-
+    // signature, = 이미지의 매직 넘버(대충 이미지 유형)을 읽어들이고, sizeof(signature), = 읽어올 데이터의 "최대 크기"는 signature 변수의 크기만큼으로 제한한다. pgmFile= 그것을 pgmFile을 토대로 한다.
     fgets(signature, sizeof(signature), pgmFile);
+
+    // P5, P6, P4가 아니면 오류 발생
     if (strcmp(signature, "P5") != 0 && strcmp(signature, "P6") != 0 && strcmp(signature, "P4") != 0) {
         perror("Wrong file type!");
         fclose(pgmFile);
         return im;
     }
 
+    // pgmFile로부터 행, 열, 최대 밝기값을 긁어온다.
+    // %d %d %d 형식으로 데이터를 읽어오면, 공백 등에 상관없이 각각 가장 먼저 만나는 정수값을 가져오게 된다.
+    // pgm 파일의 헤더는 매직 넘버(정수 아님)/열 개수(너비)/행 개수(높이)/최대 밝기 값 이렇게 정리되어 있기에 가져올 수 있는 것이다.
+    // 최대 밝기값은, 최대 밝기값을 기준으로 이미지의 밝기를 정해야 하기에 가져오는 것이다.
     fscanf(pgmFile, "%d %d %d", &cols, &rows, &levels);
-    fgetc(pgmFile); // 헤더의 마지막 줄바꿈 문자 제거
+    fgetc(pgmFile); // 헤더의 마지막 줄바꿈 문자 제거. 정확히는 헤더까지만 읽고, 뒤에 줄바꿈 문자 이후부터는 읽을 필요가 없으니 이렇게 버리는 것
 
     // 기존의 빈 이미지를 해제하고 실제 크기에 맞게 다시 할당
     imageRelease(im);
 
-    if (strcmp(signature, "P5") == 0 || strcmp(signature, "P4") == 0) {
+    // 이미지 유형에 따라, 이미지 객체를 생성하는 구간이다.
+    if (strcmp(signature, "P5") == 0 || strcmp(signature, "P4") == 0) {// 이 부분은 매직 넘버가 P5 혹은 P4 "이면" 조건을 수행한다는 의미이다.
+        // C에서는 0을 False로 쓰지만, strcmp의 경우 두 문자열의 차이를 반환하므로 0일 경우 True(같다)이다.
         im = imageAllocate(rows, cols, GREY, levels);
         for (k = 0; k < im->total; ++k) {
             im->content[k] = (unsigned char)fgetc(pgmFile);
@@ -105,6 +114,8 @@ Image readPBMImage(const char* filename) {
         im = imageAllocate(rows, cols, RGB, levels);
         unsigned long gOffset = im->cols * im->rows;
         unsigned long bOffset = 2 * im->cols * im->rows;
+        // RGB 유형의 경우, 이름 그대로 RGB 값으로 데이터가 저장되어 있다. 메모리에는 R채널, G채널, B채널을 각각 따로 저장한다.
+        //gOffset은 G채널 데이터가 시작될 위치, bOffset은 B채널 데이터가 시작될 위치를 가리킨다.
         for (k = 0; k < im->total / 3; ++k) {
             im->content[k] = (unsigned char)fgetc(pgmFile);
             im->content[k + gOffset] = (unsigned char)fgetc(pgmFile);
@@ -116,16 +127,18 @@ Image readPBMImage(const char* filename) {
     return im;
 }
 
+// PBM 이미지 쓰기
 void writePBMImage(const char* filename, const Image im) {
     FILE* pgmFile;
     int k;
 
-    pgmFile = fopen(filename, "wb");
+    pgmFile = fopen(filename, "wb"); // 파일 이름을 받아와, 바이너리 쓰기(write/binary) 모드로 연다.
     if (pgmFile == NULL) {
         perror("Cannot open file to write");
         exit(-1);
     }
 
+    // 흑백은 GREY, RGB는 P6로 매직넘버를 적는다.
     if (im->format == GREY)
         fprintf(pgmFile, "P5\n");
     else if (im->format == RGB)
@@ -136,16 +149,21 @@ void writePBMImage(const char* filename, const Image im) {
         return;
     }
 
+    // 헤더의 남은 부분인 행 개수(높이), 열 개수(너비), 최대 밝기 적는다.
     fprintf(pgmFile, "%d %d\n", im->cols, im->rows);
     fprintf(pgmFile, "%d\n", im->levels);
 
+    // 흑백일 경우, TOTAL(=이미지 픽셀 요소 개수)만큼 반복하며 점을 찍는 식으로 이미지 구성한다.
     if (im->format == GREY) {
         for (k = 0; k < im->total; ++k)
             fputc((unsigned char)im->content[k], pgmFile);
     }
+    //RGB의 경우, readPBM에서 했던 과정의 역순이라 이해하면 쉽다. 
     else if (im->format == RGB) {
+        //R은 시작점 자체가 R만 모여있어서 따로 구역을 안나눴고, G와 B만 각각 gOffset/bOffset으로 나눈 것이다.
         unsigned long gOffset = im->cols * im->rows;
-        unsigned long bOffset = 2 * im->cols * im->rows;
+        unsigned long bOffset = 2 * im->cols * im->rows; // 2*가 붙어있는 이유는, r->G->B 순서대로 3번째에 B 데이터가 오기 때문이다.
+        // 즉, 그릴 때 저만큼 떨어진 "위치에" 있는 값을 가져와 넣는 것이 offset의 의미라고 볼 수 있다.
         for (k = 0; k < im->total / 3; ++k) {
             fputc((unsigned char)im->content[k], pgmFile);
             fputc((unsigned char)im->content[k + gOffset], pgmFile);
@@ -153,7 +171,7 @@ void writePBMImage(const char* filename, const Image im) {
         }
     }
 
-    fclose(pgmFile);
+    fclose(pgmFile); // 파일 다 썼으니 닫기
 }
 
 void histogramEqualization(Image im) {
@@ -162,7 +180,6 @@ void histogramEqualization(Image im) {
         printf("Histogram equalization can only be applied to GREY images.\n");
         return;
     }
-
 
     // 이미지의 최소(minVal) / 최대(maxVal) 픽셀 값 찾기
     int minVal = im->levels; // 최대 밝기 값으로 초기화
@@ -219,6 +236,7 @@ void DrawImage(Image im) {
 
 // 이름 그대로 히스토그램 그리기 위한 함수.
 void DrawHistogram(Image im) {
+    // 가로/세로 정의
     short* horizontal = malloc(sizeof(short) * im->cols);
     short* vertical = malloc(sizeof(short) * im->rows);
 
