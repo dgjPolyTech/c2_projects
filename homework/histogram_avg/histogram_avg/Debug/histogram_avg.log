@@ -1,16 +1,2 @@
 ﻿  01.c
-D:\C\C_2\homework\histogram_avg\01.c(101,23): warning C4018: '<': signed 또는 unsigned가 일치하지 않습니다.
-D:\C\C_2\homework\histogram_avg\01.c(109,23): warning C4018: '<': signed 또는 unsigned가 일치하지 않습니다.
-D:\C\C_2\homework\histogram_avg\01.c(144,23): warning C4018: '<': signed 또는 unsigned가 일치하지 않습니다.
-D:\C\C_2\homework\histogram_avg\01.c(150,23): warning C4018: '<': signed 또는 unsigned가 일치하지 않습니다.
-D:\C\C_2\homework\histogram_avg\01.c(207,23): warning C4018: '<': signed 또는 unsigned가 일치하지 않습니다.
-D:\C\C_2\homework\histogram_avg\01.c(208,27): warning C4018: '<': signed 또는 unsigned가 일치하지 않습니다.
-D:\C\C_2\homework\histogram_avg\01.c(226,23): warning C4018: '<': signed 또는 unsigned가 일치하지 않습니다.
-D:\C\C_2\homework\histogram_avg\01.c(230,23): warning C4018: '<': signed 또는 unsigned가 일치하지 않습니다.
-D:\C\C_2\homework\histogram_avg\01.c(235,23): warning C4018: '<': signed 또는 unsigned가 일치하지 않습니다.
-D:\C\C_2\homework\histogram_avg\01.c(237,27): warning C4018: '<': signed 또는 unsigned가 일치하지 않습니다.
-D:\C\C_2\homework\histogram_avg\01.c(245,23): warning C4018: '<': signed 또는 unsigned가 일치하지 않습니다.
-D:\C\C_2\homework\histogram_avg\01.c(247,27): warning C4018: '<': signed 또는 unsigned가 일치하지 않습니다.
-D:\C\C_2\homework\histogram_avg\01.c(258,23): warning C4018: '<': signed 또는 unsigned가 일치하지 않습니다.
-D:\C\C_2\homework\histogram_avg\01.c(265,23): warning C4018: '<': signed 또는 unsigned가 일치하지 않습니다.
   histogram_avg.vcxproj -> D:\C\C_2\homework\histogram_avg\Debug\histogram_avg.exe
