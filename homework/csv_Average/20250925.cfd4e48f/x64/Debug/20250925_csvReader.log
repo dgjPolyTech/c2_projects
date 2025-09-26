@@ -1,0 +1,5 @@
+﻿  01.c
+D:\C\C_2\20250925_csvReader\01.c(37,18): warning C4013: 'atoi'이(가) 정의되지 않았습니다. extern은 int형을 반환하는 것으로 간주합니다.
+D:\C\C_2\20250925_csvReader\01.c(30,7): warning C4101: 'gil' :참조되지 않은 지역 변수입니다.
+D:\C\C_2\20250925_csvReader\01.c(31,7): warning C4101: 'chun' :참조되지 않은 지역 변수입니다.
+  20250925_csvReader.vcxproj -> D:\C\C_2\20250925_csvReader\x64\Debug\20250925_csvReader.exe
